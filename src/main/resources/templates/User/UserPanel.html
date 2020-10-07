@@ -1,0 +1,414 @@
+<!DocType html>
+<html class="no-js" lang="" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Drive</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+		<link rel="stylesheet" href="/css/panelStyle.css" />
+		
+        <script src="/js/panelJs.js"></script>
+        
+        <script src="/js/ajax/User/ajaxCreate.js"></script>
+        <script src="/js/ajax/User/userPanel.js"></script>
+        <script src="/js/ajax/User/ajaxGet.js"></script>
+        <script src="/js/ajax/User/ajaxSAUpdate.js"></script>
+        <script src="/js/ajax/User/ajaxValidate.js"></script>
+        
+        <script type="text/javascript" src="/js/ajax/FileSystem/FileSystem.js"></script>
+        <script type="text/javascript" src="/js/ajax/FileSystem/FileSystemUpload.js"></script>
+        <script type="text/javascript" src="/js/ajax/FileSystem/Search.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.contextMenu.js"></script>
+		<script type="text/javascript" src="/js/ajax/FileSystem/Trash.js"></script>
+		
+		<link rel="stylesheet" href="/css/customPanel.css">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-loading-overlay/2.1.5/loadingoverlay.min.js"></script>
+
+ 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.contextMenu.min.js" type="text/javascript"></script>
+
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery.ui.position.min.js" type="text/javascript"></script>
+	
+	    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />
+	    <script type="text/javascript" src="/js/ajax/FileSystem/FileSystemOperation.js"></script>
+    	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<style type="text/css">
+	.AddressBarAccessBtn {
+	     background:none!important;
+	     color:DodgerBlue;
+	     border:none; 
+	     padding:0!important;
+	     font: inherit;
+	     /*border is optional*/
+	     cursor: pointer;
+	     text-decoration: none;
+	     
+    }
+    .faIconsStyle {
+    	font-size: 50px;
+    }
+    .FolderIcon {
+    	font-size: 20px;
+    }
+	</style>
+
+    </head>
+<body>
+  
+<nav class="navbar navbar-inverse sidebar" role="navigation">
+    <div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Welcome</a>
+		</div>
+		
+		<input type="hidden" th:value="${userType}" id="userTypeDetailInp">
+			
+		<div th:if="${isAccess == 'true'}">
+			<input type="hidden" th:value="${folderId}" id="hiddenFolderIdInp">
+		</div>
+		
+		<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li  class="active"><a href="#home" aria-controls="StudentList" role="tab" data-toggle="tab">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+				<li ><a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="ProfileTabBtn">Profile<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+				<li><a href="#FilesSystem" aria-controls="Files" id="FileSystemBtn" role="tab" data-toggle="tab">File System<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-file"></span></a></li>
+				
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a>
+					<ul class="dropdown-menu forAnimate" role="menu">
+						<li><a href="#updateProfile" aria-controls="updateProfile" role="tab" data-toggle="tab" id="UpdateProfileTabBtn">Update Profile</a></li>
+						<li><a href="#changePassword" aria-controls="changePassword" role="tab" data-toggle="tab">Update Password</a></li>
+						<!--<li class="divider"></li>-->
+					</ul>
+				</li>
+				
+                <li ><a th:href="@{/user_logout}">Sign out<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon glyphicon-log-out"></span></a></li>
+			</ul>
+		</div>
+		
+	</div>
+</nav>
+<div class="main">
+        
+    <div class="tab-content container">
+                    
+                <div role="tabpanel" class="tab-pane active" id="home">
+                        
+                        <div style="text-align: center; padding-top: 50px;">
+                        	<h2>When dealing with people remember you are not dealing with creatures of logic, but creatures of emotion. – Dale Carnegie</h2>
+                        	<div class="line"></div>
+                        	<h2>Take a chance! All life is a chance. The man who goes farthest is generally the one who is willing to do and dare. -Dale Carnegie</h2>
+                        	<div class="line"></div>
+                        	<h2>Effort is one of those things that gives meaning to life. Effort means you care about something, that something is important to you and you are willing to work for it. -Carol Dweck</h2>
+                        	<div class="line"></div>
+                        	<h2>If you want to be successful, It’s just this simple. Know what you are doing. Love what you are doing. And believe in what you are doing. -Will Rogers</h2>
+                        	<div class="line"></div>
+                        	<h2>Don’t waste time looking for your purpose in life….simply do what makes you feel alive. -E. Jean Carroll</h2>
+                        	<div class="line"></div>
+                        	<h2>It is not the strongest species that survive, nor the most intelligent, but the most responsive to change. -Charles Darwin</h2>
+                        	<div class="line"></div>
+                        </div>
+                       	
+                
+                </div>
+                    
+                    <div role="tabpanel" class="tab-pane" id="Profile">
+                        <h2 style="text-align: center; padding: 40px;">Profile</h2>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Email</label>
+                                    <div class="col-sm-8">
+                                        <input type="email" class="form-control emailInp" id="emailId" name="email"  readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control nameInp" id="Usersname" name="name" readonly>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Mobile No.</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control mobileNumberInp" id="profieMobileNumber" name="mobileNumber" readonly>
+                                    </div>
+                                </div>
+
+                            <div class="line"></div>
+                            </div>
+
+                   </div>
+        
+                    <div role="tabpanel" class="tab-pane" id="FilesSystem">
+                    	
+                        <h2 style="text-align: center; padding: 40px;">File System</h2>
+                        <div class="createPopupForm" >
+		                        <button type="button" class="btn btn-default " data-toggle="modal" data-target="#createFolder">Create New Folder</button>
+		                        &nbsp; &nbsp; &nbsp;
+		                        <div style="display: inline" class="dropdown">
+									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Upload <span class="caret"></span></button>
+									<ul class="dropdown-menu">
+										<li><a data-toggle="modal" data-target="#UploadMultiFilesModal">File</a></li>
+										<li><a data-toggle="modal" data-target="#UploadAFolderModal">Folder</a></li>
+									</ul>
+								</div>
+		                        <input class="searchBox pull-right" id="SearchInFileSystemInp" type="search" placeholder="Search Folder or File">
+		                        
+		                        
+		                        
+								
+		                        <div class="modal fade" id="createFolder" role="dialog">
+								    <div class="modal-dialog">
+								    	<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+									          	<h4 class="modal-title">Create Folder</h4>
+									        </div>
+									        <div class="modal-body">
+									        	<form id="createFolderForm" method="post">
+									        		<div class="col-sm-10">
+												    	<input type="text" class="form-control" name="folderName" id="folderName" placeholder="Enter Folder Name">
+									        		</div>
+									        		<input type="submit" class="btn btn-primary" value="Create">
+									        		
+									        	</form>
+									        </div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="modal fade" id="UploadMultiFilesModal" role="dialog">
+								    <div class="modal-dialog">
+								    	<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+									          	<h4 class="modal-title">Upload Multiple Files</h4>
+									        </div>
+									        <div class="modal-body">
+									        	<form method="POST" enctype="multipart/form-data" id="uploadMultipleFileForm">
+									        		<div class="col-sm-10">
+												    	<input type="file" class="fileUploaderBox form-control" name="uploadFile" multiple="multiple" id="uploadMultpleFileInput">
+									        		</div>
+									        		<input type="submit" class="btn btn-primary" value="upload">
+									        	</form>
+									        </div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="modal fade" id="UploadAFolderModal" role="dialog">
+								    <div class="modal-dialog">
+								    	<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+									          	<h4 class="modal-title">Upload A Folder</h4>
+									        </div>
+										<form method="POST" class="form-horizontal"  id="UploadAFolderForm">
+								    		<div class="modal-body">
+									        	
+									        		<div class="form-group col-sm-10">
+									        			<input type="text" class="form-control" placeholder="Enter Parent Folder Name" name="folderName" id="UploadAFolderParentFolderNameID">
+												    </div>
+												    <div class="form-group col-sm-10">	
+												    	<input type="file"  class="fileUploaderBox form-control" name="filesDir" multiple webkitdirectory id="UploadAFolderInputId">
+									        		</div>
+									        	
+									        </div>
+									        <div class="modal-footer">
+									        	<input type="submit" class="btn btn-primary" value="upload">
+									        </div>
+										</form>
+										</div>
+										
+									</div>
+								</div>
+								
+								
+							</div>
+                        
+                        <hr>
+                        <br/>
+                        
+                        
+                        
+                        
+                        <div>
+                        	<button class="btn btn-default" id="FileSystemBackButton">Back</button>
+                        </div>
+                        <div id="FileSystemAddressBar"></div>
+                        
+                        <div id="FileSystemDirectoryAddressDiv">
+                        		<input type="hidden" value="/" name="folderAddress" id="FileSystemDirectoryAddress" required="required">
+								<input type="hidden" name="parentFolderId" id="FileSysParentFolderId" required="required">
+                        </div>
+                        
+                        	<div id="FileSystemDiv" class="col-sm-12">
+                        	</div>
+                        
+                        <div id="LinkPopupDiv" title="Sharable Link" hidden="hidden">
+                        	<h3 id="LinkPopUpHeader"></h3>
+                        	<a id="LinkPopupAnchor" ></a>
+                        </div>
+                        <!--Lock Modal -->
+					<div class="modal fade" id="LockModal" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Locker</h4>
+								</div>
+								<div class="modal-body">
+									<form id="folderlock">
+										<!-- <table>
+											<tr>
+												<td><input type="password" class="form-control" name="key1" placeholder="********" id="key1"></td>
+											</tr>
+											<tr>
+												<td><input type="password" class="form-control" name="key2" placeholder="********" id="key2"></td>
+											</tr>
+											<tr>
+												<td><input type="submit" class="btn btn-info" value="Lock" id="lockbtn"></td>
+											</tr>
+										</table> -->
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					
+					
+					<!--Unlock Modal -->
+					<div class="modal fade" id="UnlockModal" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Unlocker</h4>
+								</div>
+								<div class="modal-body">
+									<form id="folderunlock">
+										<!-- <table>
+											<tr>
+												<td><input type="password" class="form-control" name="key" placeholder="********" id="key"></td>
+											</tr>
+											<tr>
+												<td><input type="submit" class="btn btn-info" value="Unlock" id="unlockbtn"></td>
+											</tr>
+										</table> -->
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+                        <div id="PropertiesDiv" title="Properties" hidden="hidden">
+                        	<p id="PropertiesPara"></p>
+                        	
+                        </div>
+                        
+                       	<div class="line"></div>
+                       	
+                       	
+                    </div>
+                    
+        			<div role="tabpanel" class="tab-pane" id="updateProfile">
+                        <h2 style="text-align: center; padding: 40px;">Update Profile</h2>
+                        <div class="">
+                            <form class="form-horizontal" id="UpdateProfileForm" >
+                                
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Email</label>
+                                    <div class="col-sm-8">
+                                        <input type="email" class="form-control emailInp" id="email" th:name="email" readonly required="required">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control nameInp" id="profileName" th:name="name" required="required">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Mobile No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control mobileNumberInp" id="mobileNumber" th:name="mobileNumber" required="required">
+                                    </div>
+                                </div>
+                                  
+                                <div class="form-group">        
+                                    <div class="col-sm-offset-5 col-sm-2">
+                                        <input type="submit" class="btn btn-primary btn-block" value="Update Changes">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+        
+                    <div role="tabpanel" class="tab-pane" id="changePassword">
+                        <h2 style="text-align: center; padding: 40px;">Change Password</h2>
+                        <div class="">
+                            <form class="form-horizontal" id="UpdatePasswordForm">
+                                
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">New Password</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Confirm Password</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required="required">
+                                    </div>
+                                </div>    
+                                <div class="form-group">
+                                    <div class="col-sm-offset-5 col-sm-2">
+                                        <input type="submit" class="btn btn-primary btn-block" value="Update Password">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+			</div>
+    </body>
+</html>
